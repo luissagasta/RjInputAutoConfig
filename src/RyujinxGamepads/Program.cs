@@ -1,61 +1,47 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using SDL2;
-using static SDL2.SDL;
-using static SDLHelper;
+﻿using RyujinxGamepads;
 
 class Program
 {
-    static void Main()
+    static void Main(string[] args)
     {
-        var gamepadIds = GetGamepadRiujynxIds();
+        try
+        {
+            GetGamepadsAndWriteConfig();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred: {ex.Message}");
+        }
+    }
+
+    static void GetGamepadsAndWriteConfig()
+    {
+        if(!TryGetGamepadsAndShowFoundGamepads(out var gamepadIds))
+        {
+            return;
+        }
+        WriteConfig(gamepadIds);
+    }
+
+    static void WriteConfig(List<string> gamepadIds)
+    {
+        var ryujinxConfigFilepath = @"D:\Switch\Ryujinx\portable\Config-ps.json";
+        RyujinxConfigHelper.ReplaceInputConfig(ryujinxConfigFilepath, gamepadIds);
+        Console.WriteLine($"Config file written to {ryujinxConfigFilepath}");
+    }
+
+    static bool TryGetGamepadsAndShowFoundGamepads(out List<string> gamepadIds)
+    {
+        gamepadIds = GamepadsHelper.GetGamepadRiujynxIds();
         if (gamepadIds.Count == 0)
         {
             Console.WriteLine("No gamepads found.");
-            return;
-        }
-        Console.WriteLine($"Gamepads found: {gamepadIds.Count}");
-        gamepadIds.ForEach(id => Console.WriteLine(id));
-    }
-
-    static bool TryGenerateGamepadId(int gamepadIndex, List<string> existingGamepadIds, out string id)
-    {
-        var gamepadId = GetGamepadId(gamepadIndex);
-        if (gamepadId == Guid.Empty)
-        {
-            id = null;
             return false;
         }
-        id = GetRyujinxId(gamepadId, existingGamepadIds);
+        ShowFoundGamepads(gamepadIds);
         return true;
     }
 
-    static string GetRyujinxId(Guid gamepadId, List<string> existingGamepadIds)
-    {
-        int guidIndex = 0;
-        var id = $"{guidIndex}-{gamepadId}";
-        while (existingGamepadIds.Contains(id))
-        {
-            id = $"{++guidIndex}-{gamepadId}";
-        }
-        return id;
-    }
-
-    static List<string> GetGamepadRiujynxIds()
-    {
-        InitializeSDL();
-        int numJoysticks = GetumberOfGamepads();
-        var gamepadsIds = new List<string>();
-        for (int i = 0; i < numJoysticks; i++)
-        {
-            if (!TryGenerateGamepadId(i, gamepadsIds, out var gamepadId))
-            {
-                continue;
-            }
-            gamepadsIds.Add(gamepadId);
-        }
-        QuitSDL();
-        return gamepadsIds;
-    }
+    static void ShowFoundGamepads(List<string> gamepadIds) => Console.WriteLine($"Gamepads found: {gamepadIds.Count}{Environment.NewLine}{gamepadIds.Aggregate((previous, current) => $"{previous}{Environment.NewLine}{current}")}");
 
 }
