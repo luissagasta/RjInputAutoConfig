@@ -6,5 +6,11 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Ryujinx.SDL2-CS" Version="2.30.0-build32" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.5" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

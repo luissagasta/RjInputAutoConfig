@@ -1,4 +1,5 @@
 ﻿using RyujinxGamepads;
+using static RyujinxGamepads.MessagesHelper;
 
 class Program
 {
@@ -6,28 +7,30 @@ class Program
     {
         try
         {
-            GetGamepadsAndWriteConfig();
+            GetGamepadsAndWriteRyujinxConfig();
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"An error occurred: {ex.Message}");
+            ShowError(ex);
+            Environment.Exit(-1);
         }
     }
 
-    static void GetGamepadsAndWriteConfig()
+    static void GetGamepadsAndWriteRyujinxConfig()
     {
-        if(!TryGetGamepadsAndShowFoundGamepads(out var gamepadIds))
+        if (!TryGetGamepadsAndShowFoundGamepads(out var gamepadIds))
         {
             return;
         }
-        WriteConfig(gamepadIds);
+        WriteRyujinxConfig(gamepadIds);
     }
 
-    static void WriteConfig(List<string> gamepadIds)
+    static void WriteRyujinxConfig(List<string> gamepadIds) => WriteRyujinxConfig(new Settings().RyujinxConfigFilepath, gamepadIds);
+
+    static void WriteRyujinxConfig(string ryujinxConfigFilepath, List<string> gamepadIds)
     {
-        var ryujinxConfigFilepath = @"D:\Switch\Ryujinx\portable\Config-ps.json";
         RyujinxConfigHelper.ReplaceInputConfig(ryujinxConfigFilepath, gamepadIds);
-        Console.WriteLine($"Config file written to {ryujinxConfigFilepath}");
+        ShowSuccess($"Config file written to {ryujinxConfigFilepath}");
     }
 
     static bool TryGetGamepadsAndShowFoundGamepads(out List<string> gamepadIds)
@@ -35,13 +38,12 @@ class Program
         gamepadIds = GamepadsHelper.GetGamepadRiujynxIds();
         if (gamepadIds.Count == 0)
         {
-            Console.WriteLine("No gamepads found.");
+            ShowWarning("No gamepads found.");
             return false;
         }
-        ShowFoundGamepads(gamepadIds);
+        WriteFoundGamepads(gamepadIds);
         return true;
     }
 
-    static void ShowFoundGamepads(List<string> gamepadIds) => Console.WriteLine($"Gamepads found: {gamepadIds.Count}{Environment.NewLine}{gamepadIds.Aggregate((previous, current) => $"{previous}{Environment.NewLine}{current}")}");
-
+    static void WriteFoundGamepads(List<string> gamepadIds) => Show($"Gamepads found: {gamepadIds.Count}{Environment.NewLine}{gamepadIds.Aggregate((previous, current) => $"{previous}{Environment.NewLine}{current}")}");
 }
