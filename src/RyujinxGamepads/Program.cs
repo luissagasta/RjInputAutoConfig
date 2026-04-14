@@ -1,4 +1,5 @@
-﻿using RyujinxGamepads;
+﻿using System.Diagnostics;
+using RyujinxGamepads;
 using static RyujinxGamepads.MessagesHelper;
 
 class Program
@@ -7,7 +8,11 @@ class Program
     {
         try
         {
-            GetGamepadsAndWriteRyujinxConfig();
+            if (!TryGetGamepadsAndWriteRyujinxConfig())
+            {
+                return;
+            }
+            RunRyujinxIfNeeded(args);
         }
         catch (Exception ex)
         {
@@ -16,16 +21,19 @@ class Program
         }
     }
 
-    static void GetGamepadsAndWriteRyujinxConfig()
+    static void RunRyujinxIfNeeded(string[] args) => ProgramRunner.RunIfPathIsNotEmpty(Settings.Current.RyujinxProgramFilepath, args);
+
+    static bool TryGetGamepadsAndWriteRyujinxConfig()
     {
         if (!TryGetGamepadsAndShowFoundGamepads(out var gamepadIds))
         {
-            return;
+            return false;
         }
         WriteRyujinxConfig(gamepadIds);
+        return true;
     }
 
-    static void WriteRyujinxConfig(List<string> gamepadIds) => WriteRyujinxConfig(new Settings().RyujinxConfigFilepath, gamepadIds);
+    static void WriteRyujinxConfig(List<string> gamepadIds) => WriteRyujinxConfig(Settings.Current.RyujinxConfigFilepath, gamepadIds);
 
     static void WriteRyujinxConfig(string ryujinxConfigFilepath, List<string> gamepadIds)
     {
