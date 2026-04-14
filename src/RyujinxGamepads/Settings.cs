@@ -3,14 +3,17 @@ namespace RyujinxGamepads;
 
 internal class Settings
 {
-    internal static Settings Current { get; } = new Settings();
-    private Settings()
+    internal static Settings Current { get; } = new Settings("appsettings.json");
+    private Settings(string configFilePath)
     {
+        ConfigFilePath = configFilePath;
+        Configuration = LoadConfiguration();
         RyujinxConfigFilepath = GetPathOrThrowException("RyujinxConfigFilepath");
         RyujinxProgramFilepath = GetPath("RyujinxProgramFilepath");
     }
-    static readonly string ConfigFilePath = $"appsettings.json";
-    IConfiguration Configuration { get; } = new ConfigurationBuilder().AddJsonFile(ConfigFilePath).Build();
+    IConfiguration LoadConfiguration() => new ConfigurationBuilder().AddJsonFile(ConfigFilePath).Build();
+    string ConfigFilePath { get; }
+    IConfiguration Configuration { get; }
     string GetPathOrThrowException(string key) => GetPath(key) ?? throw NewKeyNotFoundException(key);
     string GetPath(string key) => ExpandPath(GetValue<string>(key));
     string ExpandPath(string path) => string.IsNullOrWhiteSpace(path) ? path : Environment.ExpandEnvironmentVariables(path);
