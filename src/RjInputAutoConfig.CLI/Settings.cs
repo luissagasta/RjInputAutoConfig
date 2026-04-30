@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Configuration;
 
-internal class Settings
+class Settings
 {
     internal static Settings Current { get; } = new Settings("appsettings.json");
     private Settings(string configFilePath)
