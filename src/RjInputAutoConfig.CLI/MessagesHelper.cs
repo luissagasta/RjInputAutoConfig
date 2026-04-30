@@ -1,7 +1,4 @@
-using System;
-namespace RyujinxGamepads;
-
-internal static class MessagesHelper
+static class MessagesHelper
 {
     internal static void ShowError(Exception exception) => Show($"An error occurred: {exception.Message}", ConsoleColor.Red);
     internal static void ShowSuccess(string message) => Show(message, ConsoleColor.Green);
@@ -14,5 +11,4 @@ internal static class MessagesHelper
         Show(message);
         Console.ResetColor();
     }
-
 }

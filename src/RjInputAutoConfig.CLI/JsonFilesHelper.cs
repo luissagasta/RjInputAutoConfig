@@ -1,6 +1,5 @@
 using System.Text.Json;
 using System.Text.Json.Nodes;
-namespace RyujinxGamepads;
 
 static class JsonFilesHelper
 {
@@ -26,5 +25,4 @@ static class JsonFilesHelper
     static JsonNode GetJsonFileContent(string filePath) => JsonNode.Parse(GetFileContent(filePath));
 
     static string GetFileContent(string filePath) => File.ReadAllText(filePath);
-
 }

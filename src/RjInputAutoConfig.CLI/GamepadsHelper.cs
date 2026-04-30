@@ -1,5 +1,4 @@
 using static SDLHelper;
-namespace RyujinxGamepads;
 
 class GamepadsHelper
 {
@@ -42,5 +41,4 @@ class GamepadsHelper
         }
         return id;
     }
-
 }

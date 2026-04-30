@@ -1,6 +1,5 @@
 using System.Text.Json.Nodes;
-using static RyujinxGamepads.JsonFilesHelper;
-namespace RyujinxGamepads;
+using static JsonFilesHelper;
 
 class RyujinxConfigHelper
 {
@@ -29,5 +28,4 @@ class RyujinxConfigHelper
     }
 
     static JsonNode GetDesiredSingleInputSectionOrThrowException() => GetJsonFileContentOrThrowException("ryujinxgamepadinput.json", "Ryujinx single input config file");
-
 }

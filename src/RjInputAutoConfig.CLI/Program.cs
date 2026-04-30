@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using RyujinxGamepads;
-using static RyujinxGamepads.MessagesHelper;
+﻿using static MessagesHelper;
 
 class Program
 {
