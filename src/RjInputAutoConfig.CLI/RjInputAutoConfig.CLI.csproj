@@ -1,5 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <AssemblyName>RjInputAutoConfig</AssemblyName>
+    <Product>Ryujinx Input Auto Config</Product>
+    <AssemblyTitle>Automatically configures Ryujinx gamepad input based on connected gamepads</AssemblyTitle>
     <OutputType>Exe</OutputType>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
