@@ -3,7 +3,7 @@ static class SDLHelper
 {
     internal static void InitializeSDL()
     {
-        if (Initialize()<0)
+        if (Initialize() < 0)
         {
             throw new Exception("SDL_Init error: " + SDL_GetError());
         }

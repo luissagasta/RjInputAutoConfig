@@ -1,8 +1,8 @@
 using static SDLHelper;
 
-class GamepadsHelper
+static class GamepadsHelper
 {
-    internal static List<string> GetGamepadRiujynxIds()
+    internal static List<string> GetGamepadRyujinxIds()
     {
         InitializeSDL();
         int numJoysticks = GetumberOfGamepads();

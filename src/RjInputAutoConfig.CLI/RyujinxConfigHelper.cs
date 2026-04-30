@@ -1,7 +1,7 @@
 using System.Text.Json.Nodes;
 using static JsonFilesHelper;
 
-class RyujinxConfigHelper
+static class RyujinxConfigHelper
 {
     internal static void ReplaceInputConfig(string configFilePath, IEnumerable<string> gamepadIds)
     {

@@ -1,6 +1,6 @@
 ﻿using static MessagesHelper;
 
-class Program
+static class Program
 {
     static void Main(string[] args)
     {
@@ -41,7 +41,7 @@ class Program
 
     static bool TryGetGamepadsAndShowFoundGamepads(out List<string> gamepadIds)
     {
-        gamepadIds = GamepadsHelper.GetGamepadRiujynxIds();
+        gamepadIds = GamepadsHelper.GetGamepadRyujinxIds();
         if (gamepadIds.Count == 0)
         {
             ShowWarning("No gamepads found.");
