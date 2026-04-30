@@ -19,7 +19,7 @@ class Program
         }
     }
 
-    static void RunRyujinxIfNeeded(string[] args) => ProgramRunner.RunIfPathIsNotEmpty(Settings.Current.RyujinxProgramFilepath, args);
+    static void RunRyujinxIfNeeded(string[] args) => ProgramRunner.RunIfPathIsNotEmpty(Settings.Current.RyujinxProgramFilepath, args, () => Show("Launching Ryujinx..."));
 
     static bool TryGetGamepadsAndWriteRyujinxConfig()
     {
